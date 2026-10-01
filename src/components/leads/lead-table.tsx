@@ -41,7 +41,7 @@ export function LeadTable({ leads }: { leads: LeadRow[] }) {
             >
               <td className="px-4 py-3">
                 <Link href={`/leads/${lead.id}`} className="block">
-                  <span className="font-medium text-ink hover:text-accent-strong">{lead.name}</span>
+                  <span className="font-medium text-ink hover:text-brand-strong">{lead.name}</span>
                   <span className="block text-[13px] text-ink-2">
                     {lead.company ?? "Unknown company"}
                   </span>

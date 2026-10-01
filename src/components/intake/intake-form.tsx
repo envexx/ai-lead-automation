@@ -140,7 +140,7 @@ export function IntakeForm() {
             <select
               value={form.urgency}
               onChange={(e) => set("urgency", e.target.value)}
-              className="h-9 w-full rounded-md border border-line-2 bg-surface px-3 text-sm text-ink focus-visible:border-accent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent"
+              className="h-9 w-full rounded-md border border-line-2 bg-surface px-3 text-sm text-ink focus-visible:border-brand focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-brand"
             >
               <option value="LOW">Low</option>
               <option value="MEDIUM">Medium</option>
@@ -193,10 +193,10 @@ export function IntakeForm() {
             </p>
             <p className="text-[13px] text-ink-3">engine {result.engine}</p>
             <div className="mt-1 flex flex-wrap gap-3 text-sm">
-              <Link href={`/leads/${result.leadId}`} className="text-accent-strong hover:underline">
+              <Link href={`/leads/${result.leadId}`} className="text-brand-strong hover:underline">
                 Open lead
               </Link>
-              <Link href={`/runs/${result.runId}`} className="text-accent-strong hover:underline">
+              <Link href={`/runs/${result.runId}`} className="text-brand-strong hover:underline">
                 Open run
               </Link>
             </div>

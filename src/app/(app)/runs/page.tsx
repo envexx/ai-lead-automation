@@ -83,7 +83,7 @@ export default async function RunsPage({
                     <td className="px-4 py-3">
                       <Link
                         href={`/runs/${run.id}`}
-                        className="font-medium text-ink hover:text-accent-strong"
+                        className="font-medium text-ink hover:text-brand-strong"
                       >
                         {run.lead?.name ?? "Unlinked"}
                       </Link>

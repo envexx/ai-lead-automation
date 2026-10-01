@@ -43,7 +43,7 @@ export default async function LeadsPage({
             name="q"
             defaultValue={q}
             placeholder="Search name, company, need"
-            className="h-9 w-56 rounded-md border border-line-2 bg-surface px-3 text-sm text-ink placeholder:text-ink-3 focus-visible:border-accent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent"
+            className="h-9 w-56 rounded-md border border-line-2 bg-surface px-3 text-sm text-ink placeholder:text-ink-3 focus-visible:border-brand focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-brand"
           />
           <button
             type="submit"
@@ -90,7 +90,7 @@ export default async function LeadsPage({
             action={
               <Link
                 href="/intake"
-                className="mt-1 rounded-md bg-accent px-3 py-2 text-sm font-medium text-on-accent hover:bg-accent-strong"
+                className="mt-1 rounded-md bg-brand px-3 py-2 text-sm font-medium text-on-brand hover:bg-brand-strong"
               >
                 New lead
               </Link>

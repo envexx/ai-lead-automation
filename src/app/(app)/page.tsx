@@ -27,7 +27,7 @@ export default async function DashboardPage() {
           </h1>
         </div>
         <div className="flex items-center gap-2">
-          <Badge tone="accent">engine: {engine}</Badge>
+          <Badge tone="brand">engine: {engine}</Badge>
           <span className="tnum text-xs text-ink-3">{formatDateTime(new Date())}</span>
         </div>
       </header>
@@ -35,7 +35,7 @@ export default async function DashboardPage() {
       <StatStrip
         items={[
           { label: "Leads today", value: stats.leadsToday },
-          { label: "Qualified", value: stats.qualified, tone: "accent" },
+          { label: "Qualified", value: stats.qualified, tone: "brand" },
           { label: "Hot leads", value: stats.hot, tone: "hot" },
           { label: "Follow-ups pending", value: stats.pendingTasks },
         ]}
@@ -48,7 +48,7 @@ export default async function DashboardPage() {
           action={
             <Link
               href="/intake"
-              className="mt-1 rounded-md bg-accent px-3 py-2 text-sm font-medium text-on-accent hover:bg-accent-strong"
+              className="mt-1 rounded-md bg-brand px-3 py-2 text-sm font-medium text-on-brand hover:bg-brand-strong"
             >
               Open intake console
             </Link>
@@ -69,7 +69,7 @@ export default async function DashboardPage() {
                     <div className="flex items-center gap-2">
                       <Link
                         href={`/leads/${latestRun.lead.id}`}
-                        className="text-lg font-semibold text-ink hover:text-accent-strong"
+                        className="text-lg font-semibold text-ink hover:text-brand-strong"
                       >
                         {latestRun.lead.name}
                       </Link>
@@ -125,7 +125,7 @@ export default async function DashboardPage() {
               <PanelHeader
                 title="Follow-ups due"
                 action={
-                  <Link href="/leads" className="text-[13px] text-accent-strong hover:underline">
+                  <Link href="/leads" className="text-[13px] text-brand-strong hover:underline">
                     View leads
                   </Link>
                 }
@@ -140,7 +140,7 @@ export default async function DashboardPage() {
                       <p className="mt-0.5 text-[13px] text-ink-2">
                         <Link
                           href={`/leads/${task.lead.id}`}
-                          className="hover:text-accent-strong"
+                          className="hover:text-brand-strong"
                         >
                           {task.lead.name}
                         </Link>
@@ -159,7 +159,7 @@ export default async function DashboardPage() {
               <PanelHeader
                 title="Recent runs"
                 action={
-                  <Link href="/runs" className="text-[13px] text-accent-strong hover:underline">
+                  <Link href="/runs" className="text-[13px] text-brand-strong hover:underline">
                     All runs
                   </Link>
                 }

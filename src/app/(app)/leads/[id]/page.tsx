@@ -90,7 +90,7 @@ export default async function LeadDetailPage({
                     <ul className="mt-2 space-y-1.5">
                       {(lead.qualification?.signals as string[]).map((signal) => (
                         <li key={signal} className="flex gap-2 text-sm text-ink-2">
-                          <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                          <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brand" />
                           {signal}
                         </li>
                       ))}
@@ -126,7 +126,7 @@ export default async function LeadDetailPage({
                   {lead.messages.map((message) => (
                     <li key={message.id} className="px-4 py-4">
                       <div className="flex items-center gap-2">
-                        <Badge tone={message.direction === "INBOUND" ? "neutral" : "accent"}>
+                        <Badge tone={message.direction === "INBOUND" ? "neutral" : "brand"}>
                           {message.direction}
                         </Badge>
                         <span className="font-mono text-[11px] text-ink-3">
