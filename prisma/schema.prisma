@@ -1,0 +1,206 @@
+// Firstpass - lead qualification and follow-up engine.
+// Single Postgres datasource. Works with Prisma Postgres or any Postgres
+// connection string supplied through DATABASE_URL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Lead {
+  id                String            @id @default(cuid())
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  name              String
+  email             String?
+  company           String?
+  companySize       Int?
+  need              String?
+  budgetUsd         Int?
+  urgency           String?
+  message           String
+  source            String            @default("form")
+  score             Int               @default(0)
+  status            LeadStatus        @default(COLD)
+  recommendedAction ActionType?
+  qualified         Boolean           @default(false)
+  qualification     Qualification?
+  runs              AutomationRun[]
+  tasks             FollowUpTask[]
+  messages          Message[]
+  actions           Action[]
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Qualification {
+  id         String   @id @default(cuid())
+  leadId     String   @unique
+  lead       Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  intent     String
+  confidence Float
+  urgency    String
+  signals    Json
+  reasoning  String
+  engine     String
+  createdAt  DateTime @default(now())
+}
+
+model AutomationRun {
+  id         String      @id @default(cuid())
+  leadId     String?
+  lead       Lead?       @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  trigger    String      @default("inbound")
+  status     RunStatus   @default(PENDING)
+  score      Int?
+  decision   String?
+  summary    String?
+  engine     String?
+  startedAt  DateTime    @default(now())
+  finishedAt DateTime?
+  steps      RunStep[]
+  actions    Action[]
+  tasks      FollowUpTask[]
+  audit      AuditLog[]
+
+  @@index([status])
+  @@index([startedAt])
+}
+
+model RunStep {
+  id        String     @id @default(cuid())
+  runId     String
+  run       AutomationRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+  seq       Int
+  name      String
+  status    StepStatus @default(OK)
+  detail    String?
+  ms        Int?
+  createdAt DateTime   @default(now())
+
+  @@index([runId, seq])
+}
+
+model Action {
+  id        String       @id @default(cuid())
+  runId     String?
+  run       AutomationRun? @relation(fields: [runId], references: [id], onDelete: SetNull)
+  leadId    String?
+  lead      Lead?        @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  type      ActionType
+  status    ActionStatus @default(PENDING)
+  risk      RiskLevel    @default(LOW)
+  title     String
+  detail    String?
+  mode      String?
+  createdAt DateTime     @default(now())
+
+  @@index([runId])
+}
+
+model FollowUpTask {
+  id          String     @id @default(cuid())
+  leadId      String
+  lead        Lead       @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  runId       String?
+  run         AutomationRun? @relation(fields: [runId], references: [id], onDelete: SetNull)
+  title       String
+  dueAt       DateTime
+  status      TaskStatus @default(OPEN)
+  assignee    String     @default("Sales")
+  createdAt   DateTime   @default(now())
+  completedAt DateTime?
+
+  @@index([status])
+}
+
+model Message {
+  id        String           @id @default(cuid())
+  leadId    String
+  lead      Lead             @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  direction MessageDirection
+  channel   String           @default("email")
+  subject   String?
+  body      String
+  engine    String?
+  createdAt DateTime         @default(now())
+
+  @@index([leadId])
+}
+
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  runId     String?
+  run       AutomationRun? @relation(fields: [runId], references: [id], onDelete: Cascade)
+  actor     String   @default("system")
+  event     String
+  detail    String?
+  createdAt DateTime @default(now())
+
+  @@index([runId])
+}
+
+enum LeadStatus {
+  HOT
+  WARM
+  COLD
+}
+
+enum RunStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  NEEDS_REVIEW
+  FAILED
+}
+
+enum StepStatus {
+  OK
+  WARN
+  ERROR
+}
+
+enum ActionType {
+  GENERATE_REPLY
+  CREATE_TASK
+  NOTIFY_SALES
+  CRM_UPDATE
+  BOOK_CALL
+  NURTURE
+  LOW_PRIORITY
+}
+
+enum ActionStatus {
+  PENDING
+  DONE
+  SKIPPED
+  FAILED
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum TaskStatus {
+  OPEN
+  DONE
+}
+
+enum MessageDirection {
+  INBOUND
+  OUTBOUND
+  DRAFT
+}
